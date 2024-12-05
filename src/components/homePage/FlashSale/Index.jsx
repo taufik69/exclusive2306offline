@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import ProductCard from "../../CommonCoponents/ProductCard";
-import { useGetAllProductQuery } from "../../../Features/Api/ProductApi";
+import { useGetAllFlashSaleQuery } from "../../../Features/Api/exclusiveApi";
 const FlashSale = () => {
-  const { data, error, isLoading } = useGetAllProductQuery();
+  const { data, error, isLoading } = useGetAllFlashSaleQuery();
+  console.log(data?.data);
 
   return (
     <div className="container">
