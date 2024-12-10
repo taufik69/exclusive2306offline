@@ -43,7 +43,9 @@ const ProductCommonLayout = ({
         <div className="flex justify-between items-center">
           <div className="flex items-end gap-x-[87px]">
             <Heading title={heading} description={description} />
-            {timeStamp && <Timer timeofOffer={timeofOffer} />}
+            {isLoading
+              ? "data nAI"
+              : timeStamp && <Timer timeofOffer={timeofOffer} />}
           </div>
           {isArrowsTrue && (
             <div className="flex items-center gap-x-4">

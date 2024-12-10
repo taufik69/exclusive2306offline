@@ -4,7 +4,7 @@ import ProductCard from "../../CommonCoponents/ProductCard";
 import { useGetAllFlashSaleQuery } from "../../../Features/Api/exclusiveApi";
 const FlashSale = () => {
   const { data, error, isLoading } = useGetAllFlashSaleQuery();
-  console.log(data?.data);
+  const timedate = parseInt(data?.data[0]?.timeOffer?.offerDate);
 
   return (
     <div className="container">
@@ -12,12 +12,12 @@ const FlashSale = () => {
         <ProductCommonLayout
           ProductCard={ProductCard}
           timeStamp={true}
-          timeofOffer={1}
+          timeofOffer={timedate || 1}
           isArrowsTrue={true}
           heading="Today's"
           description="Flash Sales"
           partialItemShow={6}
-          componentData={data?.products}
+          componentData={data?.data}
           isLoading={isLoading}
         />
         <div className="pb-20 ">

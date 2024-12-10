@@ -8,55 +8,20 @@ import { RiComputerLine } from "react-icons/ri";
 import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import CategoryItem from "../../CommonCoponents/CategoryItem";
 
-const categorybrowse = [
-  {
-    id: 1,
-    name: "Phones",
-    img: <CiMobile4 />,
-  },
-  {
-    id: 2,
-    name: "Computer",
-    img: <RiComputerLine />,
-  },
-  {
-    id: 3,
-    name: "Smart Watch",
-    img: <BsSmartwatch />,
-  },
-
-  {
-    id: 4,
-    name: "Camera",
-    img: <FaCameraRetro />,
-  },
-  {
-    id: 5,
-    name: "HeadPhone",
-    img: <FaHeadphonesSimple />,
-  },
-  {
-    id: 6,
-    name: "Gaming",
-    img: <GiConsoleController />,
-  },
-  {
-    id: 7,
-    name: "Phones",
-    img: <CiMobile4 />,
-  },
-  {
-    id: 8,
-    name: "Computer",
-    img: <RiComputerLine />,
-  },
-  {
-    id: 9,
-    name: "Smart Watch",
-    img: <BsSmartwatch />,
-  },
-];
+import { useGetAllCategoryQuery } from "../../../Features/Api/exclusiveApi";
 const Category = () => {
+  const { data, isLoading, error } = useGetAllCategoryQuery();
+
+  let newArr = [];
+  data?.data.map((item) => {
+    newArr.push({
+      id: item?._id,
+      name: item?.title,
+      image: <BsSmartwatch />,
+    });
+  });
+
+  console.log(newArr);
   return (
     <div>
       <ProductCommonLayout
@@ -65,7 +30,8 @@ const Category = () => {
         isArrowsTrue={true}
         ProductCard={CategoryItem}
         partialItemShow={6}
-        componentData={categorybrowse}
+        componentData={newArr}
+        isLoading={isLoading}
       />
     </div>
   );
