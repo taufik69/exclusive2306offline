@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { BsSmartwatch } from "react-icons/bs";
 import { CiMobile4 } from "react-icons/ci";
 import { FaCameraRetro } from "react-icons/fa";
@@ -7,10 +7,13 @@ import { GiConsoleController } from "react-icons/gi";
 import { RiComputerLine } from "react-icons/ri";
 import ProductCommonLayout from "../../CommonCoponents/ProductCommonLayout";
 import CategoryItem from "../../CommonCoponents/CategoryItem";
-
+import { getCategory } from "../../../Features/AllSlice/categorySlice";
+import { useDispatch } from "react-redux";
 import { useGetAllCategoryQuery } from "../../../Features/Api/exclusiveApi";
 const Category = () => {
+  const dispatch = useDispatch();
   const { data, isLoading, error } = useGetAllCategoryQuery();
+  const isDataDispatched = useRef(false);
 
   let newArr = [];
   data?.data.map((item) => {
@@ -20,8 +23,14 @@ const Category = () => {
       image: <BsSmartwatch />,
     });
   });
+  // store category data in redux
+  useEffect(() => {
+    if (isLoading == false && isDataDispatched.current === false) {
+      dispatch(getCategory(data?.data));
+      isDataDispatched.current = true;
+    }
+  }, [isLoading, dispatch, data]);
 
-  console.log(newArr);
   return (
     <div>
       <ProductCommonLayout

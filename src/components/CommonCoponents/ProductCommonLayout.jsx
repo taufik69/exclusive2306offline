@@ -88,7 +88,7 @@ const ProductCommonLayout = ({
               : componentData?.map((item, index) => (
                   <div
                     className={partialItemShow > 4 ? "pr-8" : "pr-6"}
-                    key={item.key}
+                    key={index}
                   >
                     <ProductCard itemData={item ? item : {}} />
                   </div>

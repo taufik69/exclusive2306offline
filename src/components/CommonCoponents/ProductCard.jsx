@@ -13,7 +13,7 @@ const ProductCard = ({ itemData }) => {
           <div className="flex items-center justify-between">
             {itemData?.discountPrice && (
               <span className="px-3 py-2 rounded bg-redDB4444 inline-block font-popins text-sm text-white_FFFFFF font-normal">
-                - {itemData ? itemData?.productId.discountPrice : 0} Tk
+                - {itemData ? itemData?.discountPrice : 0} Tk
               </span>
             )}
             <span className="w-[35px] h-[35px] flex justify-center items-center rounded-full bg-white_FFFFFF cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF  text-xl">
@@ -23,7 +23,7 @@ const ProductCard = ({ itemData }) => {
           <div className="flex justify-between cursor-pointer">
             <div className="w-[172] h-[152px] flex-1 ">
               <img
-                src={itemData ? itemData.productId.image[0] : image}
+                src={itemData ? itemData?.image[0] : image}
                 alt={image}
                 className="h-full w-full object-contain"
               />
@@ -38,7 +38,7 @@ const ProductCard = ({ itemData }) => {
         </div>
         <div className="flex flex-col items-start gap-y-2 mt-4">
           <h2 className="text-lg font-popins font-medium cursor-pointer w-full truncate ">
-            {itemData ? itemData.productId.name : "HAVIT HV-G92 Gamepad"}
+            {itemData ? itemData.name : "HAVIT HV-G92 Gamepad"}
           </h2>
           <div className="flex items-center gap-x-3 cursor-pointer">
             <span className="text-redDB4444 font-medium text-lg font-popins inline-block">
@@ -47,21 +47,19 @@ const ProductCard = ({ itemData }) => {
                 itemData?.price,
                 itemData?.discountPercentage
               )?.toFixed(2)} */}
-              {parseFloat(itemData.productId.price.replace(/,/g, "")) -
-                parseFloat(itemData.productId.discountPrice.replace(/,/g, ""))}
+              {parseFloat(itemData.price.replace(/,/g, "")) -
+                parseFloat(itemData.discountPrice.replace(/,/g, ""))}
             </span>
             <span className="text-text_black000000 opacity-50 font-medium text-lg font-popins inline-block line-through">
               $
               {itemData
-                ? parseFloat(
-                    itemData.productId.price.replace(/,/g, "")
-                  )?.toFixed(2)
+                ? parseFloat(itemData.price.replace(/,/g, ""))?.toFixed(2)
                 : 0}
             </span>
           </div>
           <div>
             <div className="flex items-center gap-x-1 cursor-pointer">
-              <Star rating={itemData && itemData.productId.rating} />
+              <Star rating={itemData && itemData.rating} />
 
               <h3 className="text-text_black000000 opacity-50 font-medium text-lg font-popins ">{`(${itemData.rating})`}</h3>
             </div>

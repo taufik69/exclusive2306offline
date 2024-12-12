@@ -12,21 +12,25 @@ const Navbar = () => {
     {
       id: 1,
       item: "Home",
+      navPath: "/",
     },
 
     {
       id: 2,
-      item: "Contact",
+      item: "Product",
+      navPath: "/product",
     },
 
     {
       id: 3,
       item: "About",
+      navPath: "/",
     },
 
     {
       id: 4,
       item: "SignUp",
+      navPath: "/",
     },
   ];
   const [account, setAccount] = useState(false);
@@ -49,7 +53,7 @@ const Navbar = () => {
               {navItem?.map((nav) => (
                 <li key={nav.id} className="menuUnderLine">
                   <NavLink
-                    to={`/${nav.item}`}
+                    to={`${nav.navPath}`}
                     className={({ isPending, isActive }) =>
                       isPending
                         ? "text-black text-[17px] font-normal font-popins"

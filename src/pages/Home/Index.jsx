@@ -14,11 +14,11 @@ const Homepage = () => {
       <Banner />
       <FlashSale />
       <Category />
-      {/* <BestSellilng /> */}
-      {/* <Experience timeDuration={5} />
+      <BestSellilng />
+      <Experience timeDuration={5} />
       <ExploreProduct />
       <NewArrival />
-      <CustomerService /> */}
+      <CustomerService />
     </div>
   );
 };

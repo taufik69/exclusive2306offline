@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./AllSlice/countSlice";
+import categorySlice from "./AllSlice/categorySlice";
 import { ProductApi } from "./Api/ProductApi";
-import {exclusiveApi} from "./Api/exclusiveApi"
+import { exclusiveApi } from "./Api/exclusiveApi";
 export const store = configureStore({
   reducer: {
-    count: counterSlice,
+    category: categorySlice,
     [ProductApi.reducerPath]: ProductApi.reducer,
-    [exclusiveApi.reducerPath]:exclusiveApi.reducer
+    [exclusiveApi.reducerPath]: exclusiveApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(ProductApi.middleware).concat(exclusiveApi.middleware),
+    getDefaultMiddleware()
+      .concat(ProductApi.middleware)
+      .concat(exclusiveApi.middleware),
 });

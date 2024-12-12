@@ -6,6 +6,10 @@ const FlashSale = () => {
   const { data, error, isLoading } = useGetAllFlashSaleQuery();
   const timedate = parseInt(data?.data[0]?.timeOffer?.offerDate);
 
+  const flashSaleProduct = data?.data?.map((item) => {
+    return item.productId;
+  });
+
   return (
     <div className="container">
       <div className="flex flex-col items-center border-b-[1px] border-b-black_363738 mb-10">
@@ -17,7 +21,7 @@ const FlashSale = () => {
           heading="Today's"
           description="Flash Sales"
           partialItemShow={6}
-          componentData={data?.data}
+          componentData={flashSaleProduct}
           isLoading={isLoading}
         />
         <div className="pb-20 ">
