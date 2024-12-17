@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 const ProductPage = () => {
   // const { data, error, isLoading } = useGetAllProductCategoryListQuery();
   const category = useSelector((state) => state?.category?.value);
+ 
+  
   return (
     <div className="container py-20">
       <BreadCrumb />
@@ -15,7 +17,7 @@ const ProductPage = () => {
           // isLoading={isLoading}
           // error={error}
         />
-        {/* <ProductRight /> */}
+        <ProductRight />
       </div>
     </div>
   );

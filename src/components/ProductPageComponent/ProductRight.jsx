@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import ProductCard from "../CommonCoponents/ProductCard";
-import { useGetAllProductQuery } from "../../Features/Api/ProductApi";
+import { useGetAllProductsQuery } from "../../Features/Api/exclusiveApi";
 const ProductRight = () => {
-  const { data, error, isLoading } = useGetAllProductQuery();
-  const [page, setpage] = useState(3);
+  const { data, error, isLoading } = useGetAllProductsQuery();
+  const [page, setpage] = useState(1);
   const [pagePerShow, setpagePerShow] = useState(9);
-  let totalPage = data?.limit / 9;
+  let totalPage = data?.data?.length / 9;
 
   //   pagination funtionality
   const handlePerItem = (index) => {
@@ -14,13 +14,19 @@ const ProductRight = () => {
     }
   };
 
+  // select option 
+  const handleOption = (e)=> {
+    setpagePerShow(parseInt(e.target.value));
+    
+  }
+
   return (
     <div className="w-[75%]">
       <div className="flex justify-end items-center gap-x-2">
         <h2 className="font-popins font-normal text-[16px] text-text_black000000">
           Show :
         </h2>
-        <select name="" id="" className="px-3 bg-slate-200 rounded-sm py-1">
+        <select name="" id="" className="px-3 bg-slate-200 rounded-sm py-1" onChange={handleOption}>
           <option value="9">9</option>
           <option value="18">18</option>
           <option value="36">36</option>
@@ -28,7 +34,7 @@ const ProductRight = () => {
       </div>
       {/* product */}
       <div className="flex flex-wrap justify-between ">
-        {data?.products?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
+        {data?.data?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
           <div className="w-[30%]">
             <ProductCard itemData={item} />
           </div>

@@ -9,13 +9,7 @@ const ImageGallery = ({ image }) => {
     clientX: 0,
     clientY: 0,
   });
-  const handleMouseEnter = (img, event) => {
-    setisEnter({
-      ...isEnter,
-      clientX: event.clientX,
-      clientY: event.clientY,
-    });
-  };
+
 
   return (
     <div>

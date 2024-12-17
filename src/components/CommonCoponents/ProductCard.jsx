@@ -2,12 +2,16 @@ import React from "react";
 import { IoHeartOutline } from "react-icons/io5";
 import image from "../../assets/products/p1.png";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import useCalculateDiscount from "../../hooks/useCalculateDiscount";
 import Star from "./Star";
 const ProductCard = ({ itemData }) => {
+  
+
+
   return (
-    <div className="mt-10 ">
+    <Link to={`/productdetails/${itemData._id}`}>
+    <div className="mt-10" >
       <div className="w-full">
         <div className="bg-white_F5F5F5 pb-[55px] px-3 pt-4 rounded relative group cursor-pointer">
           <div className="flex items-center justify-between">
@@ -67,6 +71,7 @@ const ProductCard = ({ itemData }) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 

@@ -1,8 +1,6 @@
 import React from "react";
 
 const ProductLeft = ({ categoryData, isLoading = false }) => {
-  console.log(categoryData);
-
   return (
     <div className="w-[23%] border-r-[1.5px] border-r-text_black7D8184">
       <h1 className="font-popins font-bold text-[20px] text-text_black000000 mb-4 cursor-pointer">
@@ -24,13 +22,13 @@ const ProductLeft = ({ categoryData, isLoading = false }) => {
         </ul>
       ) : (
         <ul>
-          {/* {categoryData?.map((item) => (
+          {categoryData?.map((item) => (
             <div className="flex items-center justify-between hover:bg-gray-200 transition-all">
               <li className="font-popins hover:px-5 transition-all text-md text-text_black000000 font-normal py-3 cursor-pointer capitalize">
-                {item}
+                {item.title}
               </li>
             </div>
-          ))} */}
+          ))}
         </ul>
       )}
 
