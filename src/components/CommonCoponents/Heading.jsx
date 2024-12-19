@@ -1,6 +1,6 @@
 import React from "react";
 
-const Heading = ({ title, description }) => {
+const Heading = ({ title, description = true }) => {
   return (
     <div className="flex flex-col items-start gap-y-6">
       <div className="flex items-center gap-x-4">
@@ -11,7 +11,8 @@ const Heading = ({ title, description }) => {
       </div>
       <div>
         <h1 className="font-inter font-semibold text-[36px] text-text_black000000 capitalize">
-          {description ? description : "Flash Sales"}
+          
+          {description && description }
         </h1>
       </div>
     </div>

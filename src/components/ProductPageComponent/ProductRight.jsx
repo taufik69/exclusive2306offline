@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../CommonCoponents/ProductCard";
-import { useGetAllProductsQuery } from "../../Features/Api/exclusiveApi";
-const ProductRight = () => {
-  const { data, error, isLoading } = useGetAllProductsQuery();
+import { useGetAllProductsQuery, useGetSingleCategoryQuery } from "../../Features/Api/exclusiveApi";
+const ProductRight = ({ categoryid = null }) => {
+  const [product, setproduct] = useState([])
+  const { data, error, isLoading } = categoryid ? useGetSingleCategoryQuery(categoryid) : useGetAllProductsQuery()
   const [page, setpage] = useState(1);
   const [pagePerShow, setpagePerShow] = useState(9);
-  let totalPage = data?.data?.length / 9;
+  let totalPage = product?.length / 9;
 
   //   pagination funtionality
   const handlePerItem = (index) => {
@@ -15,10 +16,11 @@ const ProductRight = () => {
   };
 
   // select option 
-  const handleOption = (e)=> {
+  const handleOption = (e) => {
     setpagePerShow(parseInt(e.target.value));
-    
+
   }
+
 
   return (
     <div className="w-[75%]">
@@ -34,11 +36,16 @@ const ProductRight = () => {
       </div>
       {/* product */}
       <div className="flex flex-wrap justify-between ">
-        {data?.data?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
+        {categoryid ? data?.data?.product?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
           <div className="w-[30%]">
             <ProductCard itemData={item} />
           </div>
-        ))}
+        )) : data?.data?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
+          <div className="w-[30%]">
+            <ProductCard itemData={item} />
+          </div>
+        ))
+        }
       </div>
 
       <div

@@ -8,14 +8,17 @@ import ProductDetailsSkeletion from "../../components/Skeletion/ProductDetailsSk
 import Heading from "../../components/CommonCoponents/Heading.jsx";
 import Slider from "react-slick";
 import {
-  useGetSingleProductQuery
+  useGetSingleProductQuery,
+  useGetSingleCategoryQuery
 } from "../../Features/Api/exclusiveApi.js";
 import ProductCard from "../../components/CommonCoponents/ProductCard.jsx";
 const ProductDetails = () => {
   const params = useParams();
   const { data, error, isLoading } = useGetSingleProductQuery(params?.id || "672cb7929da611f7a8557111");
 
+  const categoryInfo = useGetSingleCategoryQuery(data?.data?.category?._id)
 
+  
   /**
    * todo : useGetProductByCategoryQuery query invoked
    */
@@ -31,6 +34,7 @@ const ProductDetails = () => {
     dots: false,
   };
 
+  
   return (
     <div className="py-20">
       <div className="container">
@@ -52,16 +56,16 @@ const ProductDetails = () => {
         )}
 
         {/* related product */}
-        {/* <div className="py-[140px]">
+        <div className="py-[140px]">
           <Heading title="Related Item" description={false} />
           <Slider {...settings}>
-            {categoryData?.data?.products?.map((item) => (
-              <div className="mx-4">
+            {categoryInfo?.data?.data?.product.map((item) => (
+              <div className="px-4">
                 <ProductCard itemData={item} />
               </div>
             ))}
           </Slider>
-        </div> */}
+        </div>
         {/* related product */}
       </div>
     </div>
