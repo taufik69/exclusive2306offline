@@ -5,13 +5,18 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { Link } from "react-router-dom";
 import useCalculateDiscount from "../../hooks/useCalculateDiscount";
 import Star from "./Star";
-const ProductCard = ({ itemData }) => {
-  
+import { useDispatch, useSelector } from "react-redux";
+import { addtoCart } from "../../Features/AllSlice/productSlice";
 
+const ProductCard = ({ itemData }) => {
+  const dispatch = useDispatch();
+
+  const handleAddtoCart = (productItem) => {
+    dispatch(addtoCart(productItem));
+  };
 
   return (
-    <Link to={`/productdetails/${itemData._id}`}>
-    <div className="mt-10" >
+    <div className="mt-10">
       <div className="w-full">
         <div className="bg-white_F5F5F5 pb-[55px] px-3 pt-4 rounded relative group cursor-pointer">
           <div className="flex items-center justify-between">
@@ -25,18 +30,23 @@ const ProductCard = ({ itemData }) => {
             </span>
           </div>
           <div className="flex justify-between cursor-pointer">
-            <div className="w-[172] h-[152px] flex-1 ">
-              <img
-                src={itemData ? itemData?.image[0] : image}
-                alt={image}
-                className="h-full w-full object-contain"
-              />
-            </div>
+            <Link to={`/productdetails/${itemData._id}`}>
+              <div className="w-[172] h-[152px] flex-1 ">
+                <img
+                  src={itemData ? itemData?.image[0] : image}
+                  alt={image}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+            </Link>
             <span className="w-[35px] h-[35px] flex justify-center items-center rounded-full bg-white_FFFFFF cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF  text-xl mt-2">
               <MdOutlineRemoveRedEye />
             </span>
           </div>
-          <div className="opacity-0 absolute left-0 bottom-0 font-popins font-medium text-lg cursor-pointer  flex justify-center items-center w-full h-12 bg-text_black000000 text-white_FFFFFF group-hover:opacity-100">
+          <div
+            className="opacity-0 absolute left-0 bottom-0 font-popins font-medium text-lg cursor-pointer  flex justify-center items-center w-full h-12 bg-text_black000000 text-white_FFFFFF group-hover:opacity-100"
+            onClick={() => handleAddtoCart(itemData)}
+          >
             <h3>Add To Cart</h3>
           </div>
         </div>
@@ -71,7 +81,6 @@ const ProductCard = ({ itemData }) => {
         </div>
       </div>
     </div>
-    </Link>
   );
 };
 

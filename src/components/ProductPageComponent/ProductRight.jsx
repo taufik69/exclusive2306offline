@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../CommonCoponents/ProductCard";
-import { useGetAllProductsQuery, useGetSingleCategoryQuery } from "../../Features/Api/exclusiveApi";
+import {
+  useGetAllProductsQuery,
+  useGetSingleCategoryQuery,
+} from "../../Features/Api/exclusiveApi";
 const ProductRight = ({ categoryid = null }) => {
-  const [product, setproduct] = useState([])
-  const { data, error, isLoading } = categoryid ? useGetSingleCategoryQuery(categoryid) : useGetAllProductsQuery()
+  const { data, error, isLoading } = categoryid
+    ? useGetSingleCategoryQuery(categoryid)
+    : useGetAllProductsQuery();
   const [page, setpage] = useState(1);
   const [pagePerShow, setpagePerShow] = useState(9);
-  let totalPage = product?.length / 9;
+  let totalPage = data?.data?.length / 9;
 
   //   pagination funtionality
   const handlePerItem = (index) => {
@@ -15,12 +19,10 @@ const ProductRight = ({ categoryid = null }) => {
     }
   };
 
-  // select option 
+  // select option
   const handleOption = (e) => {
     setpagePerShow(parseInt(e.target.value));
-
-  }
-
+  };
 
   return (
     <div className="w-[75%]">
@@ -28,7 +30,12 @@ const ProductRight = ({ categoryid = null }) => {
         <h2 className="font-popins font-normal text-[16px] text-text_black000000">
           Show :
         </h2>
-        <select name="" id="" className="px-3 bg-slate-200 rounded-sm py-1" onChange={handleOption}>
+        <select
+          name=""
+          id=""
+          className="px-3 bg-slate-200 rounded-sm py-1"
+          onChange={handleOption}
+        >
           <option value="9">9</option>
           <option value="18">18</option>
           <option value="36">36</option>
@@ -36,18 +43,22 @@ const ProductRight = ({ categoryid = null }) => {
       </div>
       {/* product */}
       <div className="flex flex-wrap justify-between ">
-        {categoryid ? data?.data?.product?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
-          <div className="w-[30%]">
-            <ProductCard itemData={item} />
-          </div>
-        )) : data?.data?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
-          <div className="w-[30%]">
-            <ProductCard itemData={item} />
-          </div>
-        ))
-        }
+        {categoryid
+          ? data?.data?.product
+              ?.slice(page * 9 - 9, page * pagePerShow)
+              .map((item) => (
+                <div className="w-[30%]">
+                  <ProductCard itemData={item} />
+                </div>
+              ))
+          : data?.data?.slice(page * 9 - 9, page * pagePerShow).map((item) => (
+              <div className="w-[30%]">
+                <ProductCard itemData={item} />
+              </div>
+            ))}
       </div>
 
+      {/* pagiantion part */}
       <div
         aria-label="Page navigation example"
         className="flex justify-center items-center mt-20"
@@ -89,7 +100,7 @@ const ProductRight = ({ categoryid = null }) => {
           </li>
         </ul>
       </div>
-
+      {/* pagiantion part */}
       {/* product */}
     </div>
   );

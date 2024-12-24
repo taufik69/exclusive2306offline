@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import categorySlice from "./AllSlice/categorySlice";
+import productSlice from "./AllSlice/productSlice";
 import { ProductApi } from "./Api/ProductApi";
 import { exclusiveApi } from "./Api/exclusiveApi";
 export const store = configureStore({
   reducer: {
     category: categorySlice,
+    product: productSlice,
     [ProductApi.reducerPath]: ProductApi.reducer,
     [exclusiveApi.reducerPath]: exclusiveApi.reducer,
   },
