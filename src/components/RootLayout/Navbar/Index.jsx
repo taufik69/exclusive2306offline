@@ -6,6 +6,7 @@ import { ImCancelCircle } from "react-icons/im";
 import { IoMdStarOutline } from "react-icons/io";
 import { LuShoppingBag, LuUser } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 const Navbar = () => {
   const navItem = [
@@ -36,6 +37,7 @@ const Navbar = () => {
     },
   ];
   const [account, setAccount] = useState(false);
+  const { totalItem } = useSelector((state) => state.product);
 
   const handleAccount = () => {
     setAccount(!account);
@@ -85,7 +87,10 @@ const Navbar = () => {
               <span className="text-text_black7D8184 text-2xl cursor-pointer">
                 <FaRegHeart />
               </span>
-              <span className="text-text_black7D8184 text-2xl amount cursor-pointer">
+              <span
+                className="text-text_black7D8184 text-2xl amount cursor-pointer"
+                data-totalitem={totalItem}
+              >
                 <BsCart />
               </span>
               <span

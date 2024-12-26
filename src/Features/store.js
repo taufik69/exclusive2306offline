@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import categorySlice from "./AllSlice/categorySlice";
 import productSlice from "./AllSlice/productSlice";
+import { getTotal } from "./AllSlice/productSlice";
 import { ProductApi } from "./Api/ProductApi";
 import { exclusiveApi } from "./Api/exclusiveApi";
 export const store = configureStore({
@@ -15,3 +16,4 @@ export const store = configureStore({
       .concat(ProductApi.middleware)
       .concat(exclusiveApi.middleware),
 });
+store.dispatch(getTotal());

@@ -4,7 +4,10 @@ import "slick-carousel/slick/slick.css";
 import Slider from "react-slick";
 import { LiaAngleRightSolid } from "react-icons/lia";
 import Bannerimg from "../../../assets/banner/banner.jpg";
-import { useGetCategoryQuery ,useGetAllBannerQuery } from "../../../Features/Api/exclusiveApi";
+import {
+  useGetCategoryQuery,
+  useGetAllBannerQuery,
+} from "../../../Features/Api/exclusiveApi";
 const Banner = () => {
   const [currentSlide, setcurrentSlide] = useState(0);
   const settings = {
@@ -61,8 +64,8 @@ const Banner = () => {
 
   // call category api
   const { data, isLoading, error } = useGetCategoryQuery();
-   const bannerInfo =  useGetAllBannerQuery();
-  
+  const bannerInfo = useGetAllBannerQuery();
+
 
   return (
     <div>

@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BreadCrumb } from "../../components/CommonCoponents/BreadCrumb.jsx";
 import productOne from "../../../src/assets/cart/p1.png";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
-import { removeCart } from "../../Features/AllSlice/productSlice.js";
+import {
+  removeCart,
+  incrementCart,
+  decrementCart,
+  getTotal,
+} from "../../Features/AllSlice/productSlice.js";
 
 const AddToCart = () => {
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) => state.product);
+
+  useEffect(() => {
+    dispatch(getTotal());
+  }, [dispatch, localStorage.getItem("cartItem")]);
+  const { value, totalAmount, totalItem } = useSelector(
+    (state) => state.product
+  );
 
   const handleRemove = (itemId) => {
     dispatch(removeCart(itemId));
+  };
+
+  // handleIncrement funtion implement
+  const handleIncrement = (item) => {
+    dispatch(incrementCart(item));
+  };
+
+  // handleDecrement funtion implement
+  const handleDecrement = (item) => {
+    dispatch(decrementCart(item));
   };
 
   return (
@@ -43,7 +64,7 @@ const AddToCart = () => {
 
         {/* carti tem */}
         <div className="custom_scrollbar w-full h-[500px] overflow-y-scroll ">
-          {cartItem?.value.map((item) => (
+          {value?.map((item) => (
             <div className="mb-10" key={item._id}>
               <div className="flex justify-between shadow-lg rounded">
                 <div className="flex-1 py-6  flex justify-start">
@@ -77,11 +98,11 @@ const AddToCart = () => {
                       className=" w-[25px] text-[20px] font-popins font-normal text-text_black000000"
                     />
                     <div className="flex flex-col items-center justify-center">
-                      <span className="">
+                      <span className="" onClick={() => handleIncrement(item)}>
                         <IoIosArrowUp className="inline-block  cursor-pointer" />
                       </span>
 
-                      <span className="">
+                      <span className="" onClick={() => handleDecrement(item)}>
                         <IoIosArrowDown className="inline-block  cursor-pointer" />
                       </span>
                     </div>
@@ -132,26 +153,25 @@ const AddToCart = () => {
               </h1>
 
               <div className="justify-between   relative inline-flex items-center w-full px-4 py-2 font-popins font-normal text-text_black000000 text-[16px border-b border-gray-200 rounded-t-lg hover:bg-gray-100">
-                <button type="button">Subtotal:</button>
+                <button type="button">Discount:</button>
                 <span className="inline-block font-popins font-normal text-text_black000000 text-[16px]">
                   {" "}
-                  $1750
+                  0%
                 </span>
               </div>
 
               <div className="justify-between   relative inline-flex items-center w-full px-4 py-2 font-popins font-normal text-text_black000000 text-[16px border-b border-gray-200 rounded-t-lg hover:bg-gray-100">
-                <button type="button">Shipping:</button>
+                <button type="button">Quantity:</button>
                 <span className="inline-block font-popins font-normal text-text_black000000 text-[16px]">
-                  {" "}
-                  $1750
+                  {totalItem}
                 </span>
               </div>
 
               <div className="justify-between   relative inline-flex items-center w-full px-4 py-2 font-popins font-normal text-text_black000000 text-[16px rounded-t-lg hover:bg-gray-100">
-                <button type="button">Total:</button>
+                <button type="button">SubTotal:</button>
                 <span className="inline-block font-popins font-normal text-text_black000000 text-[16px]">
                   {" "}
-                  $1750
+                  ${totalAmount}
                 </span>
               </div>
             </div>

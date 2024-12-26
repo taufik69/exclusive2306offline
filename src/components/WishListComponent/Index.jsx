@@ -38,9 +38,9 @@ const WishList = () => {
         {/* wish list slider */}
         <div className="mt-[60px]">
           <Slider {...settings}>
-            {data?.products.map((item) => (
+            {data?.products?.map((item) => (
               <div className="px-4">
-                <ProductCard itemData={item} />
+                {/* <ProductCard itemData={item} /> */}
               </div>
             ))}
           </Slider>
@@ -61,7 +61,8 @@ const WishList = () => {
           <Slider {...settings}>
             {justForYou?.data?.products.map((item) => (
               <div className="px-4">
-                <ProductCard itemData={item} />
+                {/* <ProductCard itemData={item} /> */}
+                <asd>asdf</asd>
               </div>
             ))}
           </Slider>
