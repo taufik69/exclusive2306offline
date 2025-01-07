@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { instance } from "../../components/Axios/AxiosInstance";
+import { SuessToast } from "../../utils/Toast";
+import { DNA } from "react-loader-spinner";
 const SignUP = () => {
+  const navigate = useNavigate();
+  const [loading, setloading] = useState(false);
   const [userinfo, setuserinfo] = useState({
     FirstName: "",
     Email_Adress: "",
-    password: "",
+    Password: "",
     confrim_password: "",
     agree: false,
   });
@@ -20,22 +24,34 @@ const SignUP = () => {
 
   const handleSignUP = async () => {
     try {
-      const { FirstName, Email_Adress, password, confrim_password, agree } =
+      setloading(true);
+      const { FirstName, Email_Adress, Password, confrim_password, agree } =
         userinfo;
-      if (password !== confrim_password) {
+      if (Password !== confrim_password) {
         alert("Passoword Not Match");
       } else {
         // hit the database
         const resposne = await instance.post("/registration", {
-          FirstName: "taufik",
-          Email_Adress: "taufik.cit.bd@gmail.com",
-          Password: "Mern@1234",
+          FirstName: FirstName,
+          Email_Adress: Email_Adress,
+          Password: Password,
         });
-
-        console.log(resposne);
+        const { data, statusText } = resposne;
+        if (statusText.toLocaleLowerCase() == "Ok".toLocaleLowerCase()) {
+          SuessToast(data.message);
+        }
       }
     } catch (error) {
       console.error("Error form handleSignUP ", error);
+    } finally {
+      setloading(false);
+      setuserinfo({
+        FirstName: "",
+        Email_Adress: "",
+        Password: "",
+        confrim_password: "",
+        agree: false,
+      });
     }
   };
 
@@ -161,8 +177,8 @@ const SignUP = () => {
 
                   <input
                     type="password"
-                    id="password"
-                    name="password"
+                    id="Password"
+                    name="Password"
                     onChange={handleUserinput}
                     class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
                   />
@@ -218,13 +234,29 @@ const SignUP = () => {
                 </div>
 
                 <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <button
-                    type="button"
-                    class="inline-block shrink-0 rounded-md border  bg-redDB4444 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-                    onClick={handleSignUP}
-                  >
-                    Sign UP
-                  </button>
+                  {loading ? (
+                    <button
+                      type="button"
+                      class="inline-block shrink-0 rounded-md border  bg-redDB4444 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                    >
+                      <DNA
+                        visible={true}
+                        height="40"
+                        width="40"
+                        ariaLabel="dna-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="dna-wrapper"
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      class="inline-block shrink-0 rounded-md border  bg-redDB4444 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                      onClick={handleSignUP}
+                    >
+                      Sign UP
+                    </button>
+                  )}
 
                   <p class="mt-4 text-sm text-gray-500 sm:mt-0">
                     Already have an account?
