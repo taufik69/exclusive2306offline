@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { instance } from "../../components/Axios/AxiosInstance";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { ErrorToast, SuessToast } from "../../utils/Toast";
 
 const Otp = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const [inputerr, setinputerr] = useState(false);
   const [otp, setotp] = useState(new Array(4).fill(""));
   const [finalOtp, setFinalOtp] = useState("");
@@ -62,8 +64,16 @@ const Otp = () => {
         OTP: finalOtp,
       });
       console.log(response);
+      if (response.statusText.toLocaleLowerCase() == "ok".toLocaleLowerCase()) {
+        SuessToast(response?.data?.error);
+        navigate("/login");
+      }
     } catch (error) {
-      console.error("from opt verification error", error);
+      console.error("from opt verification error", error.response.data.message);
+      ErrorToast(error.response.data.message);
+    } finally {
+      setFinalOtp("");
+      setotp(null);
     }
   };
 

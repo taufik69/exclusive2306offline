@@ -3,8 +3,11 @@ import login from "../../../assets/login/login.gif";
 import { useFormik } from "formik";
 import { loginSchema } from "../../../Validation/Schema/LoginSchema";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { instance } from "../../../components/Axios/AxiosInstance";
+import { SuessToast } from "../../../utils/Toast";
 const Login = () => {
+  const navigate = useNavigate();
   const [eye, setEye] = useState(false);
   const initialValue = {
     emailorphone: "",
@@ -13,8 +16,36 @@ const Login = () => {
   const formik = useFormik({
     initialValues: initialValue,
     validationSchema: loginSchema,
-    onSubmit: (value) => {
-      console.log(value);
+    onSubmit: async (value) => {
+      const resposne = await instance.post(
+        "/login",
+        {
+          Email_Adress: value.emailorphone,
+          Password: value.Password,
+        },
+        {
+          withCredentials: true, // Include cookies
+        }
+      );
+
+      // const resposne = await fetch("http://localhost:4000/api/v1/login", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     Email_Adress: value.emailorphone,
+      //     Password: value.Password,
+      //   }),
+      //   credentials: "include", // Include cookies
+      // });
+
+      console.log(resposne.data);
+
+      if (resposne.statusText.toLowerCase() == "ok".toLowerCase()) {
+        SuessToast("Login SucessFull");
+        // navigate("/");
+      }
     },
   });
   return (
