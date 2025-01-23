@@ -28,23 +28,9 @@ const Login = () => {
         }
       );
 
-      // const resposne = await fetch("http://localhost:4000/api/v1/login", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     Email_Adress: value.emailorphone,
-      //     Password: value.Password,
-      //   }),
-      //   credentials: "include", // Include cookies
-      // });
-
-      console.log(resposne.data);
-
       if (resposne.statusText.toLowerCase() == "ok".toLowerCase()) {
         SuessToast("Login SucessFull");
-        // navigate("/");
+        navigate("/");
       }
     },
   });

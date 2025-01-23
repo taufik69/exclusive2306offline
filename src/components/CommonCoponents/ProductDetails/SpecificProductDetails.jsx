@@ -1,18 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Star from "../../CommonCoponents/Star";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import useCalculateDiscount from "../../../hooks/useCalculateDiscount";
+import { instance } from "../../Axios/AxiosInstance";
+import { useParams } from "react-router-dom";
 const SpecificProductDetails = ({ ProductDetailsData }) => {
-  const {
-    name,
-    rating,
-    price,
-    stock,
-    description,
-    discountPrice,
-    review
-  } = ProductDetailsData;
+  const params = useParams();
+  const [loading, setloading] = useState(false);
+  const { id } = params;
+  const { name, rating, price, stock, description, discountPrice, review } =
+    ProductDetailsData;
 
   const sizes = [
     { id: 1, size: "XS" },
@@ -21,6 +19,42 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
     { id: 4, size: "L" },
     { id: 5, size: "XL" },
   ];
+
+  const [quantity, setquantity] = useState(1);
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setquantity(quantity - 1);
+    }
+  };
+
+  const handleincrement = () => {
+    setquantity(quantity + 1);
+  };
+  console.log(document.cookie);
+
+  // handleAddtocart
+  const handleAddtocart = async () => {
+    try {
+      setloading(true);
+      const response = await instance.post(
+        "/addtocart",
+        {
+          product: id,
+          quantity: quantity,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error("error from add to cart", error);
+    } finally {
+      setloading(false);
+    }
+  };
+
   return (
     <div>
       <div className="">
@@ -41,7 +75,7 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
           </span>
         </div>
         <p className="text-2xl font-normal font-inter text-text_black000000 mt-4">
-          $ {parseInt(price) -  parseInt(discountPrice) || 0}
+          $ {parseInt(price) - parseInt(discountPrice) || 0}
         </p>
 
         <h4 className="text-md font-normal font-inter text-text_black000000 mt-4 w-[60%] border-b-[2px] border-b-gray-300 pb-10">
@@ -85,20 +119,37 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
         {/* button */}
         <div className="mt-10 flex items-center  gap-x-4">
           <div className="flex items-center">
-            <span className="px-4 py-2 border-2 border-gray-300 rounded-l-lg text-[20px] font-popins text-text_black000000 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF">
+            <span
+              className="px-4 py-2 border-2 border-gray-300 rounded-l-lg text-[20px] font-popins text-text_black000000 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF"
+              onClick={handleDecrement}
+            >
               -
             </span>
-            <span className="px-6 py-2 border-2 border-gray-300  text-[20px] font-popins text-text_black000000 border-l-0 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF">
-              2
-            </span>
-            <span className="px-4 py-2 border-2 border-gray-300 rounded-r-lg text-[20px] font-popins text-text_black000000 border-l-0 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF">
+            <input
+              className=" w-20  pl-8 justify-center py-2 border-2 border-gray-300  text-[20px] font-popins text-text_black000000 border-l-0 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF"
+              value={quantity}
+            />
+
+            <span
+              className="px-4 py-2 border-2 border-gray-300 rounded-r-lg text-[20px] font-popins text-text_black000000 border-l-0 cursor-pointer hover:bg-redDB4444 hover:text-white_FFFFFF"
+              onClick={handleincrement}
+            >
               +
             </span>
           </div>
 
-          <button className="py-[12px] px-[48px] bg-redDB4444 rounded-[5px] border-none font-popins font-medium text-white_FFFFFF text-[16px]">
-            Buy Now
-          </button>
+          {loading ? (
+            <button className="py-[12px] px-[48px] bg-redDB4444 rounded-[5px] border-none font-popins font-medium text-white_FFFFFF text-[16px]">
+              loading ....
+            </button>
+          ) : (
+            <button
+              className="py-[12px] px-[48px] bg-redDB4444 rounded-[5px] border-none font-popins font-medium text-white_FFFFFF text-[16px]"
+              onClick={handleAddtocart}
+            >
+              Add To Cart
+            </button>
+          )}
 
           <div className="border-2 border-x-gray-300 rounded  py-1 px-3 cursor-pointer hover:bg-red-500 hover:text-white_FFFFFF ">
             <span className="inline-block text-3xl font-bold  font-popins  w-full h-full ">
@@ -119,7 +170,7 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
                 Free Delivery
               </h4>
               <p className="text-[12px]  font-medium font-popins text-text_black000000">
-              Free 30 Days Delivery Returns. Details
+                Free 30 Days Delivery Returns. Details
               </p>
             </div>
           </div>
@@ -133,7 +184,7 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
                 Return Delivery
               </h4>
               <p className="text-[12px]  font-medium font-popins text-text_black000000">
-              Enter your postal code for Delivery Availability
+                Enter your postal code for Delivery Availability
               </p>
             </div>
           </div>
