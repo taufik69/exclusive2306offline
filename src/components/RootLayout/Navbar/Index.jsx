@@ -87,12 +87,14 @@ const Navbar = () => {
               <span className="text-text_black7D8184 text-2xl cursor-pointer">
                 <FaRegHeart />
               </span>
-              <span
-                className="text-text_black7D8184 text-2xl amount cursor-pointer"
-                data-totalitem={totalItem}
-              >
-                <BsCart />
-              </span>
+              <Link to={"/cart"}>
+                <span
+                  className="text-text_black7D8184 text-2xl amount cursor-pointer"
+                  data-totalitem={totalItem}
+                >
+                  <BsCart />
+                </span>
+              </Link>
               <span
                 className="text-text_whiteFAFAFA text-xl rounded-full bg-redDB4444 p-2 cursor-pointer relative"
                 onClick={handleAccount}

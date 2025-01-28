@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoHeartOutline } from "react-icons/io5";
 import image from "../../assets/products/p1.png";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
@@ -7,12 +7,36 @@ import useCalculateDiscount from "../../hooks/useCalculateDiscount";
 import Star from "./Star";
 import { useDispatch, useSelector } from "react-redux";
 import { addtoCart } from "../../Features/AllSlice/productSlice";
-
+import { instance } from "../Axios/AxiosInstance";
+import { ErrorToast, SuessToast } from "../../utils/Toast";
 const ProductCard = ({ itemData }) => {
+  const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
+  const [quantity, setquantity] = useState(1);
 
-  const handleAddtoCart = (productItem) => {
-    dispatch(addtoCart(productItem));
+  const handleAddtoCart = async (productItem) => {
+    try {
+      setloading(true);
+      const response = await instance.post(
+        "/addtocart",
+        {
+          product: productItem._id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (response) {
+        SuessToast("Add to Cart Sucessfully");
+      }
+      console.log(response);
+    } catch (error) {
+      ErrorToast("Error form Addto Cart");
+      console.error("error from add to cart", error);
+    } finally {
+      setloading(false);
+      setquantity(1);
+    }
   };
 
   return (

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import Star from "../../CommonCoponents/Star";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
-import useCalculateDiscount from "../../../hooks/useCalculateDiscount";
+
 import { instance } from "../../Axios/AxiosInstance";
 import { useParams } from "react-router-dom";
+import { SuessToast } from "../../../utils/Toast";
 const SpecificProductDetails = ({ ProductDetailsData }) => {
   const params = useParams();
   const [loading, setloading] = useState(false);
@@ -30,7 +31,6 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
   const handleincrement = () => {
     setquantity(quantity + 1);
   };
-  console.log(document.cookie);
 
   // handleAddtocart
   const handleAddtocart = async () => {
@@ -46,12 +46,16 @@ const SpecificProductDetails = ({ ProductDetailsData }) => {
           withCredentials: true,
         }
       );
-
+      if (response) {
+        SuessToast("Add to Cart Sucessfully");
+      }
       console.log(response);
     } catch (error) {
+      ErrorToast("Error form Addto Cart");
       console.error("error from add to cart", error);
     } finally {
       setloading(false);
+      setquantity(1);
     }
   };
 

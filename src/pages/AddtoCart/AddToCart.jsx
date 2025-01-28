@@ -9,19 +9,24 @@ import {
   decrementCart,
   getTotal,
 } from "../../Features/AllSlice/productSlice.js";
-
+import {
+  useGetAllCartQuery,
+  useDeleteCartItemMutation,
+} from "../../Features/Api/exclusiveApi.js";
+import { instance } from "../../components/Axios/AxiosInstance.js";
 const AddToCart = () => {
-  const dispatch = useDispatch();
+  const { loading, error, data } = useGetAllCartQuery();
+  // Use the mutation hook directly inside the component
+  const [DeleteCartItem, { isLoading, isError }] = useDeleteCartItemMutation();
+  // handleRemove funtion implement
+  const handleRemove = async (itemId) => {
+    try {
+      const response = await DeleteCartItem(itemId).unwrap();
 
-  useEffect(() => {
-    dispatch(getTotal());
-  }, [dispatch, localStorage.getItem("cartItem")]);
-  const { value, totalAmount, totalItem } = useSelector(
-    (state) => state.product
-  );
-
-  const handleRemove = (itemId) => {
-    dispatch(removeCart(itemId));
+      console.log(response);
+    } catch (error) {
+      console.error("get add to cart page", error);
+    }
   };
 
   // handleIncrement funtion implement
@@ -33,6 +38,19 @@ const AddToCart = () => {
   const handleDecrement = (item) => {
     dispatch(decrementCart(item));
   };
+
+  const productdata = data;
+  const cartItem = productdata?.data?.cart.map((item) => {
+    let cartAllItem = {};
+    const { product, quantity, _id } = item;
+    const { image, name, price } = product;
+    cartAllItem.productName = name;
+    cartAllItem.image = image;
+    cartAllItem.price = price;
+    cartAllItem.quantity = quantity;
+    cartAllItem.id = _id;
+    return cartAllItem;
+  });
 
   return (
     <div className="my-20">
@@ -64,7 +82,7 @@ const AddToCart = () => {
 
         {/* carti tem */}
         <div className="custom_scrollbar w-full h-[500px] overflow-y-scroll ">
-          {value?.map((item) => (
+          {cartItem?.map((item) => (
             <div className="mb-10" key={item._id}>
               <div className="flex justify-between shadow-lg rounded">
                 <div className="flex-1 py-6  flex justify-start">
@@ -76,12 +94,12 @@ const AddToCart = () => {
                     />
                     <span
                       className="w-[20px] h-[20px] rounded-full bg-redDB4444 absolute text-white_FFFFFF flex justify-center items-center top-[-2%] left-[15%] font-semibold cursor-pointer hover:opacity-70"
-                      onClick={() => handleRemove(item)}
+                      onClick={() => handleRemove(item.id)}
                     >
                       X
                     </span>
                     <h1 className="text-[16px] font-popins font-normal text-text_black000000 ">
-                      {item.name}
+                      {item.productName}
                     </h1>
                   </div>
                 </div>
@@ -94,7 +112,7 @@ const AddToCart = () => {
                   <div className="flex items-center justify-center gap-x-3 w-[100px] rounded border border-gray-400">
                     <input
                       type="text"
-                      value={item.cartQuantity}
+                      value={item.quantity}
                       className=" w-[25px] text-[20px] font-popins font-normal text-text_black000000"
                     />
                     <div className="flex flex-col items-center justify-center">
@@ -110,7 +128,7 @@ const AddToCart = () => {
                 </div>
                 <div className=" flex-1 flex justify-end py-6">
                   <h1 className="text-[20px] font-popins font-normal text-text_black000000 pr-10">
-                    $ {+item.price.replace(/,/g, "") * +item.cartQuantity}
+                    $ {+item.price.replace(/,/g, "") * +item.quantity}
                   </h1>
                 </div>
               </div>
@@ -163,7 +181,7 @@ const AddToCart = () => {
               <div className="justify-between   relative inline-flex items-center w-full px-4 py-2 font-popins font-normal text-text_black000000 text-[16px border-b border-gray-200 rounded-t-lg hover:bg-gray-100">
                 <button type="button">Quantity:</button>
                 <span className="inline-block font-popins font-normal text-text_black000000 text-[16px]">
-                  {totalItem}
+                  {productdata?.data?.totalQuantity}
                 </span>
               </div>
 
@@ -171,7 +189,7 @@ const AddToCart = () => {
                 <button type="button">SubTotal:</button>
                 <span className="inline-block font-popins font-normal text-text_black000000 text-[16px]">
                   {" "}
-                  ${totalAmount}
+                  ${productdata?.data?.totalPrice}
                 </span>
               </div>
             </div>
