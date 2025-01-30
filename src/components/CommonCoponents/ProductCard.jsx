@@ -5,36 +5,28 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { Link } from "react-router-dom";
 import useCalculateDiscount from "../../hooks/useCalculateDiscount";
 import Star from "./Star";
-import { useDispatch, useSelector } from "react-redux";
-import { addtoCart } from "../../Features/AllSlice/productSlice";
-import { instance } from "../Axios/AxiosInstance";
 import { ErrorToast, SuessToast } from "../../utils/Toast";
+import { useAddtoCartMutation } from "../../Features/Api/exclusiveApi";
 const ProductCard = ({ itemData }) => {
-  const [loading, setloading] = useState(false);
-  const dispatch = useDispatch();
+ 
   const [quantity, setquantity] = useState(1);
+  const [ AddtoCart, {isLoading , isError , data}] = useAddtoCartMutation()
 
   const handleAddtoCart = async (productItem) => {
     try {
-      setloading(true);
-      const response = await instance.post(
-        "/addtocart",
-        {
-          product: productItem._id,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+  
+      const response = await AddtoCart({
+        product: productItem._id,
+        quantity: quantity,
+      });
       if (response) {
         SuessToast("Add to Cart Sucessfully");
       }
-      console.log(response);
+    
     } catch (error) {
       ErrorToast("Error form Addto Cart");
       console.error("error from add to cart", error);
     } finally {
-      setloading(false);
       setquantity(1);
     }
   };
@@ -71,7 +63,7 @@ const ProductCard = ({ itemData }) => {
             className="opacity-0 absolute left-0 bottom-0 font-popins font-medium text-lg cursor-pointer  flex justify-center items-center w-full h-12 bg-text_black000000 text-white_FFFFFF group-hover:opacity-100"
             onClick={() => handleAddtoCart(itemData)}
           >
-            <h3>Add To Cart</h3>
+            <h3>{isLoading? "loading .." :'Add To Cart'} </h3>
           </div>
         </div>
         <div className="flex flex-col items-start gap-y-2 mt-4">

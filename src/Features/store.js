@@ -4,10 +4,12 @@ import productSlice from "./AllSlice/productSlice";
 import { getTotal } from "./AllSlice/productSlice";
 import { ProductApi } from "./Api/ProductApi";
 import { exclusiveApi } from "./Api/exclusiveApi";
+import { totalCartItem } from "./AllSlice/cartSlice";
 export const store = configureStore({
   reducer: {
     category: categorySlice,
     product: productSlice,
+    cartItem : totalCartItem,
     [ProductApi.reducerPath]: ProductApi.reducer,
     [exclusiveApi.reducerPath]: exclusiveApi.reducer,
   },

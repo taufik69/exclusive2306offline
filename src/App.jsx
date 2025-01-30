@@ -23,6 +23,7 @@ import Otp from "./pages/Otp/Otp";
 import Sucess from "./pages/paymentSucess/Index";
 import Failed from "./pages/paymentFailed/Index";
 import Cancle from "./pages/CanclePayment/Index";
+import Checkout from "./pages/Checkout/Checkout";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
         <Route path="/Sucess" element={<Sucess />} />
         <Route path="/fail" element={<Failed />} />
         <Route path="/cancel" element={<Cancle />} />
+        <Route path="/checkout" element={<Checkout/>} />
       </Route>
     </Route>
   )

@@ -7,7 +7,7 @@ import { IoMdStarOutline } from "react-icons/io";
 import { LuShoppingBag, LuUser } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navItem = [
     {
@@ -38,7 +38,7 @@ const Navbar = () => {
   ];
   const [account, setAccount] = useState(false);
   const { totalItem } = useSelector((state) => state.product);
-
+const navigate = useNavigate()
   const handleAccount = () => {
     setAccount(!account);
   };
@@ -70,6 +70,14 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               ))}
+
+              <li>
+                <Link to={"/cart"}>
+                  <h1 className="text-[17px] font-normal font-popins text-black">
+                    Cart
+                  </h1>
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="basis-1/3  relative  flex items-center justify-between">
@@ -87,14 +95,14 @@ const Navbar = () => {
               <span className="text-text_black7D8184 text-2xl cursor-pointer">
                 <FaRegHeart />
               </span>
-              <Link to={"/cart"}>
+              <div onClick={()=> navigate('/cart')}>
                 <span
                   className="text-text_black7D8184 text-2xl amount cursor-pointer"
                   data-totalitem={totalItem}
                 >
                   <BsCart />
                 </span>
-              </Link>
+              </div>
               <span
                 className="text-text_whiteFAFAFA text-xl rounded-full bg-redDB4444 p-2 cursor-pointer relative"
                 onClick={handleAccount}
