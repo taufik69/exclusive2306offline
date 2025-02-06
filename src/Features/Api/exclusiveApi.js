@@ -49,14 +49,22 @@ export const exclusiveApi = createApi({
       // Invalidate the 'Cart' tag to trigger re-fetching of GetAllCart query
       invalidatesTags: ["Cart"],
     }),
-    AddtoCart:builder.mutation({
-      query:(product)=>({
-        url:`/addtocart`,
-        method:"POST",
-        body:product
+    AddtoCart: builder.mutation({
+      query: (product) => ({
+        url: `/addtocart`,
+        method: "POST",
+        body: product,
       }),
       invalidatesTags: ["Cart"],
-    })
+    }),
+
+    placeOrder: builder.mutation({
+      query: (orderinfo) => ({
+        url: `/placeorder`,
+        method: "POST",
+        body: orderinfo,
+      }),
+    }),
   }),
 });
 
@@ -71,5 +79,6 @@ export const {
   useGetSingleCategoryQuery,
   useGetAllCartQuery,
   useDeleteCartItemMutation,
-  useAddtoCartMutation
+  useAddtoCartMutation,
+  usePlaceOrderMutation,
 } = exclusiveApi;

@@ -16,18 +16,13 @@ const AddToCart = () => {
   const { data, isLoading, isError } = useGetAllCartQuery();
   const [deleteCartItem] = useDeleteCartItemMutation();
 
-  useEffect(() => {
-    if (data && !isLoading) {
-      dispatch(totalCartItem(data)); 
-      console.log("data", data);
-    }
-  }, [data, dispatch]); // Ensure dispatch is in the dependency array
-  
 
   const handleRemove = async (itemId) => {
     try {
       await deleteCartItem(itemId);
-      const updatedData = data?.data?.cart.filter((item) => item._id !== itemId);
+      const updatedData = data?.data?.cart.filter(
+        (item) => item._id !== itemId
+      );
       dispatch(totalCartItem(updatedData));
     } catch (error) {
       console.error("Error removing item from cart:", error);
@@ -106,6 +101,14 @@ const AddToCart = () => {
             </div>
           ))}
         </div>
+
+        <Link
+          to="/checkout"
+          type="button"
+          class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+        >
+          Checkout{" "}
+        </Link>
       </div>
     </div>
   );
